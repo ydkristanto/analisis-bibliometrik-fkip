@@ -32,6 +32,7 @@ library(readxl)
 library(DT)
 library(treemapify)
 library(circlize)
+library(sigmajs)
 ```
 
 The purpose of this report is to identify common topics in undergraduate and master’s theses across departments within the Faculty of Teacher Training and Education at Sanata Dharma University. To achieve this, we conducted a bibliometric analysis of theses from the years 2022 and 2023. The analysis utilized data consisting of thesis titles, which were subsequently coded to generate a list of keywords for each thesis.
@@ -140,7 +141,13 @@ dep_keywords_count |>
 
 @fig-keywords-network illustrates the connections between keywords and their respective clusters. The size of the nodes represents the betweenness centrality of each keyword, indicating its importance in connecting different parts of the network. The color of the nodes corresponds to the cluster to which each keyword belongs, visually grouping related topics.
 
-![Network graph illustrating the connections between keywords and the clusters of related topics within the students' theses.](graph_keywords.png){#fig-keywords-network fig-align="center"}
+::: {#fig-keywords-network .column-page}
+```{=html}
+<iframe src="https://ydkristanto.github.io/interactive-graphs/2025-fkip-keywords/" style="width:100%;height:560px;"></iframe>
+```
+
+Network graph illustrating the connections between keywords and the clusters of related topics within the students’ theses.
+:::
 
 The table below presents the keywords along with their weighted degree and betweenness centrality. The weighted degree reflects the number of connections each keyword has, adjusted for the strength of those connections.
 
@@ -216,7 +223,13 @@ nodelist_prodi_keywords <- edgelist_prodi_keywords |>
 
 @fig-department-keywords-net displays the connections between departments and keywords, illustrating how different academic disciplines relate to various research topics. The size of the nodes represents the weighted degree, indicating the strength of each node's connections. The color of the nodes differentiates the types of nodes: departments are represented in green, while keywords are represented in pink, visually distinguishing the two types of entities in the network.
 
-![Bipartite network graph illustrating the connections between departments and keywords, highlighting the relationships between academic disciplines and research topics.](graph_prodi_keywords.png){#fig-department-keywords-net}
+::: {#fig-department-keywords-net .column-page}
+```{=html}
+<iframe src="https://ydkristanto.github.io/interactive-graphs/2025-fkip-department-keywords/" style="width:100%;height:560px;"></iframe>
+```
+
+Bipartite network graph illustrating the connections between departments and keywords, highlighting the relationships between academic disciplines and research topics.
+:::
 
 The table below presents the degree, weighted degree, and betweenness centrality of each node in the bipartite network. The degree indicates the number of direct connections each node has, while the weighted degree adjusts this count to account for the strength of the connections. Betweenness centrality reflects the extent to which a node serves as a bridge between other nodes, highlighting its role in facilitating connections across the network.
 
