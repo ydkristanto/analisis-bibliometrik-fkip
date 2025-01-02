@@ -12,7 +12,11 @@ author:
     affiliation-url: https://web.usd.ac.id/fakultas/pendidikan/
 date: 2025-01-02
 lightbox: true
-format: html
+number-sections: true
+format:
+  html:
+    toc: true
+image: "https://ydkristanto.github.io/analisis-bibliometrik-fkip/index_files/figure-html/fig-dep-connection-1.png"
 editor: visual
 execute:
   echo: false
