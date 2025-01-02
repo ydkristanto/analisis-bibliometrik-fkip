@@ -1,0 +1,67 @@
+Source,Target,Type,Id,Label,Weight,MMNT-EdgeType
+BK,PAK,Undirected,2199,Prodi-Prodi,0.007042,Prodi<--->Prodi
+BK,PBI,Undirected,2200,Prodi-Prodi,0.007808,Prodi<--->Prodi
+BK,PBSI,Undirected,2201,Prodi-Prodi,0.006515,Prodi<--->Prodi
+BK,PBio,Undirected,2202,Prodi-Prodi,0.014181,Prodi<--->Prodi
+BK,PE Akuntansi,Undirected,2203,Prodi-Prodi,0.018852,Prodi<--->Prodi
+BK,PE Ekonomi,Undirected,2204,Prodi-Prodi,0.011884,Prodi<--->Prodi
+BK,PFis,Undirected,2205,Prodi-Prodi,0.012459,Prodi<--->Prodi
+BK,PGSD,Undirected,2206,Prodi-Prodi,0.003848,Prodi<--->Prodi
+BK,PKim,Undirected,2207,Prodi-Prodi,0.001297,Prodi<--->Prodi
+BK,PMat,Undirected,2208,Prodi-Prodi,0.002861,Prodi<--->Prodi
+BK,PSej,Undirected,2209,Prodi-Prodi,0.005655,Prodi<--->Prodi
+PAK,PBI,Undirected,2210,Prodi-Prodi,0.011607,Prodi<--->Prodi
+PAK,PBSI,Undirected,2211,Prodi-Prodi,0.014638,Prodi<--->Prodi
+PAK,PBio,Undirected,2212,Prodi-Prodi,0.016756,Prodi<--->Prodi
+PAK,PE Akuntansi,Undirected,2213,Prodi-Prodi,0.010302,Prodi<--->Prodi
+PAK,PE Ekonomi,Undirected,2214,Prodi-Prodi,0.010603,Prodi<--->Prodi
+PAK,PFis,Undirected,2215,Prodi-Prodi,0.006868,Prodi<--->Prodi
+PAK,PGSD,Undirected,2216,Prodi-Prodi,0.015276,Prodi<--->Prodi
+PAK,PKim,Undirected,2217,Prodi-Prodi,0.004934,Prodi<--->Prodi
+PAK,PMat,Undirected,2218,Prodi-Prodi,0.007924,Prodi<--->Prodi
+PAK,PSej,Undirected,2219,Prodi-Prodi,0.023674,Prodi<--->Prodi
+PBI,PBSI,Undirected,2220,Prodi-Prodi,0.051227,Prodi<--->Prodi
+PBI,PBio,Undirected,2221,Prodi-Prodi,0.036808,Prodi<--->Prodi
+PBI,PE Akuntansi,Undirected,2222,Prodi-Prodi,0.038595,Prodi<--->Prodi
+PBI,PE Ekonomi,Undirected,2223,Prodi-Prodi,0.018071,Prodi<--->Prodi
+PBI,PFis,Undirected,2224,Prodi-Prodi,0.008528,Prodi<--->Prodi
+PBI,PGSD,Undirected,2225,Prodi-Prodi,0.012894,Prodi<--->Prodi
+PBI,PKim,Undirected,2226,Prodi-Prodi,0.00595,Prodi<--->Prodi
+PBI,PMat,Undirected,2227,Prodi-Prodi,0.010082,Prodi<--->Prodi
+PBI,PSej,Undirected,2228,Prodi-Prodi,0.015613,Prodi<--->Prodi
+PBSI,PBio,Undirected,2229,Prodi-Prodi,0.020315,Prodi<--->Prodi
+PBSI,PE Akuntansi,Undirected,2230,Prodi-Prodi,0.019571,Prodi<--->Prodi
+PBSI,PE Ekonomi,Undirected,2231,Prodi-Prodi,0.014881,Prodi<--->Prodi
+PBSI,PFis,Undirected,2232,Prodi-Prodi,0.011512,Prodi<--->Prodi
+PBSI,PGSD,Undirected,2233,Prodi-Prodi,0.016547,Prodi<--->Prodi
+PBSI,PKim,Undirected,2234,Prodi-Prodi,0.00734,Prodi<--->Prodi
+PBSI,PMat,Undirected,2235,Prodi-Prodi,0.010162,Prodi<--->Prodi
+PBSI,PSej,Undirected,2236,Prodi-Prodi,0.0235,Prodi<--->Prodi
+PBio,PE Akuntansi,Undirected,2237,Prodi-Prodi,0.129821,Prodi<--->Prodi
+PBio,PE Ekonomi,Undirected,2238,Prodi-Prodi,0.075771,Prodi<--->Prodi
+PBio,PFis,Undirected,2239,Prodi-Prodi,0.145943,Prodi<--->Prodi
+PBio,PGSD,Undirected,2240,Prodi-Prodi,0.063152,Prodi<--->Prodi
+PBio,PKim,Undirected,2241,Prodi-Prodi,0.03641,Prodi<--->Prodi
+PBio,PMat,Undirected,2242,Prodi-Prodi,0.044178,Prodi<--->Prodi
+PBio,PSej,Undirected,2243,Prodi-Prodi,0.059153,Prodi<--->Prodi
+PE Akuntansi,PE Ekonomi,Undirected,2244,Prodi-Prodi,0.080288,Prodi<--->Prodi
+PE Akuntansi,PFis,Undirected,2245,Prodi-Prodi,0.089941,Prodi<--->Prodi
+PE Akuntansi,PGSD,Undirected,2246,Prodi-Prodi,0.027505,Prodi<--->Prodi
+PE Akuntansi,PKim,Undirected,2247,Prodi-Prodi,0.017004,Prodi<--->Prodi
+PE Akuntansi,PMat,Undirected,2248,Prodi-Prodi,0.022212,Prodi<--->Prodi
+PE Akuntansi,PSej,Undirected,2249,Prodi-Prodi,0.053147,Prodi<--->Prodi
+PE Ekonomi,PFis,Undirected,2250,Prodi-Prodi,0.072115,Prodi<--->Prodi
+PE Ekonomi,PGSD,Undirected,2251,Prodi-Prodi,0.041611,Prodi<--->Prodi
+PE Ekonomi,PKim,Undirected,2252,Prodi-Prodi,0.035362,Prodi<--->Prodi
+PE Ekonomi,PMat,Undirected,2253,Prodi-Prodi,0.036719,Prodi<--->Prodi
+PE Ekonomi,PSej,Undirected,2254,Prodi-Prodi,0.03267,Prodi<--->Prodi
+PFis,PGSD,Undirected,2255,Prodi-Prodi,0.033054,Prodi<--->Prodi
+PFis,PKim,Undirected,2256,Prodi-Prodi,0.058704,Prodi<--->Prodi
+PFis,PMat,Undirected,2257,Prodi-Prodi,0.045913,Prodi<--->Prodi
+PFis,PSej,Undirected,2258,Prodi-Prodi,0.042541,Prodi<--->Prodi
+PGSD,PKim,Undirected,2259,Prodi-Prodi,0.065545,Prodi<--->Prodi
+PGSD,PMat,Undirected,2260,Prodi-Prodi,0.077371,Prodi<--->Prodi
+PGSD,PSej,Undirected,2261,Prodi-Prodi,0.064625,Prodi<--->Prodi
+PKim,PMat,Undirected,2262,Prodi-Prodi,0.047533,Prodi<--->Prodi
+PKim,PSej,Undirected,2263,Prodi-Prodi,0.033493,Prodi<--->Prodi
+PMat,PSej,Undirected,2264,Prodi-Prodi,0.031818,Prodi<--->Prodi

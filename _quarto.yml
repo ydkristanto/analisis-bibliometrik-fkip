@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+
+website: 
+  title: "FKIP -- Bibliometric Analysis"
+  favicon: "favicon.png"
+  site-url: "https://ydkristanto.github.io/analisis-bibliometrik-fkip/"
+  page-navigation: true
+  bread-crumbs: true
+  twitter-card:
+    creator: "@yosepdwik"
+  open-graph: true
+  repo-url: https://github.com/ydkristanto/analisis-bibliometrik-fkip
+  repo-actions: [edit, issue]
+  navbar: 
+    right: 
+      - icon: github
+        href: https://github.com/ydkristanto/analisis-bibliometrik-fkip
+  page-footer: 
+    left: | 
+      © 2024 FKIP, Universitas Sanata Dharma
+    right: | 
+      This website was built with [Quarto](https://quarto.org/){.external target="_blank"}.

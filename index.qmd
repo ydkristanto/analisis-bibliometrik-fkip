@@ -1,0 +1,304 @@
+---
+title: "Identifying Objects at Boundaries"
+subtitle: "Towards Advancing Educational Research Collaboration Across Disciplines"
+author:
+  - name: Yosep Dwi Kristanto
+    url: https://people.usd.ac.id/~ydkristanto/
+    affiliation: Faculty of Teacher Training and Education, Sanata Dharma University
+    affiliation-url: https://web.usd.ac.id/fakultas/pendidikan/
+    orcid: 0000-0003-1446-0422
+  - name: Hongki Julie
+    affiliation: Faculty of Teacher Training and Education, Sanata Dharma University
+    affiliation-url: https://web.usd.ac.id/fakultas/pendidikan/
+date: 2025-01-02
+lightbox: true
+format: html
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(DT)
+library(treemapify)
+library(circlize)
+```
+
+The purpose of this report is to identify common topics in undergraduate and master’s theses across departments within the Faculty of Teacher Training and Education at Sanata Dharma University. To achieve this, we conducted a bibliometric analysis of theses from the years 2022 and 2023. The analysis utilized data consisting of thesis titles, which were subsequently coded to generate a list of keywords for each thesis.
+
+Our analyses yielded three key insights. First, we examined the frequency of keywords across departments, providing an overview of common topics within the faculty and within individual departments. Second, we analyzed the connections between keywords through a network perspective, offering insights into how topics are interrelated and identifying clusters of related topics. Third, we explored the connections between keywords and departments to assess the extent of interdepartmental linkages.
+
+```{r}
+df_tugasakhir <- read_excel("fkip_tugasakhir_22-23.xlsx")
+df_tugasakhir <- df_tugasakhir |> 
+  mutate(
+    DE = str_replace(DE, "pedagogi ignasian", "pedagogi reflektif"),
+    DE = str_replace(DE, "paradigma pedagogi reflektif", "pedagogi reflektif"),
+    DE = str_replace(DE, "pendekatan saintifik", "saintifik"),
+    DE = str_replace(DE, "penguatan profil pelajar pancasila", "p3_pancasila"),
+    DE = str_replace(DE, "profil pelajar pancasila", "p3_pancasila"),
+    DE = str_replace(DE, "pelajar pancasila", "p3_pancasila"),
+    ID = str_replace(ID, "pedagogi ignasian", "pedagogi reflektif"),
+    ID = str_replace(ID, "paradigma pedagogi reflektif", "pedagogi reflektif"),
+    ID = str_replace(ID, "pendekatan saintifik", "saintifik"),
+    ID = str_replace(ID, "penguatan profil pelajar pancasila", "p3_pancasila"),
+    ID = str_replace(ID, "profil pelajar pancasila", "p3_pancasila"),
+    ID = str_replace(ID, "pelajar pancasila", "p3_pancasila")
+  ) |> 
+  mutate(
+    DE = str_replace(DE, "p3_pancasila", "profil pelajar pancasila"),
+    ID = str_replace(ID, "p3_pancasila", "profil pelajar pancasila"),
+  )
+```
+
+## Keyword Frequency Across Departments
+
+```{r}
+dep_keywords <- df_tugasakhir |> 
+  select(C1, ID) |> 
+  rename(
+    department = C1,
+    keywords = ID
+  ) |> 
+  separate_longer_delim(
+    cols = keywords,
+    delim = "; "
+  )
+
+keywords_count <- dep_keywords |> 
+  select(keywords) |> 
+  group_by(keywords) |> 
+  summarise(
+    count = n(),
+    .groups = "drop"
+  ) |> 
+  arrange(desc(count))
+```
+
+The table below presents the keywords and their frequencies. It shows that the top ten most common keywords in the students' theses are "modul", "media", "hasil belajar", "LKPD", "persepsi", "pembelajaran berbasis projek", "problem based learning", "film", "modul ajar", and "motivasi belajar".
+
+```{r}
+datatable(
+  keywords_count,
+  rownames = FALSE,
+  colnames = c("Keywords", "Count")
+)
+```
+
+@fig-tree-keywords displays the top ten most common keywords in the students' theses.
+
+```{r}
+#| label: fig-tree-keywords
+#| fig-cap: "Tree diagram illustrating the top ten most common keywords in the students' theses, based on frequency of occurrence."
+#| fig-asp: 0.75
+
+keywords_count |> 
+  slice_head(n = 10) |> 
+  ggplot(
+    aes(area = count, fill = keywords, label = keywords)
+  ) + 
+  geom_treemap(
+    layout="squarified",
+    show.legend = FALSE
+  ) + 
+  geom_treemap_text(place = "centre")
+```
+
+The table below shows the top ten most common keywords in each department.
+
+```{r}
+dep_keywords_count <- dep_keywords |> 
+  group_by(department, keywords) |> 
+  summarise(
+    count = n(),
+    .groups = "drop"
+  ) |> 
+  arrange(department, desc(count))
+
+
+dep_keywords_count |> 
+  group_by(department) |> 
+  slice_head(n = 10) |> 
+  ungroup() |> 
+  datatable(
+    rownames = FALSE,
+    colnames = c("Department", "Keywords", "Count")
+  )
+```
+
+## Keyword Network and Topic Clusters
+
+@fig-keywords-network illustrates the connections between keywords and their respective clusters. The size of the nodes represents the betweenness centrality of each keyword, indicating its importance in connecting different parts of the network. The color of the nodes corresponds to the cluster to which each keyword belongs, visually grouping related topics.
+
+![Network graph illustrating the connections between keywords and the clusters of related topics within the students' theses.](graph_keywords.png){#fig-keywords-network fig-align="center"}
+
+The table below presents the keywords along with their weighted degree and betweenness centrality. The weighted degree reflects the number of connections each keyword has, adjusted for the strength of those connections.
+
+```{r}
+keywords_metrics <- read_csv(
+  "keywords_metrics.csv",
+  show_col_types = FALSE
+)
+keywords_metrics_simple <- keywords_metrics |> 
+  select(Id, `Weighted Degree`, betweenesscentrality) |> 
+  mutate(
+    betweenesscentrality = round(betweenesscentrality, 2)
+  ) |> 
+  arrange(desc(betweenesscentrality))
+keywords_metrics_simple |> 
+  datatable(
+    rownames = FALSE,
+    colnames = c("Keywords", "Weighted Degree", "Centrality")
+  )
+```
+
+## Interdepartmental Linkages Based on Keywords
+
+```{r}
+tugasakhir_divider <- df_tugasakhir |> 
+  group_by(C1) |> 
+  summarise(
+    divider = n(),
+    .groups = "drop"
+  ) |> 
+  rename(
+    Source = C1
+  )
+edgelist_prodi_keywords <- df_tugasakhir |> 
+  select(C1, ID) |> 
+  rename(
+    Source = C1,
+    Target = ID
+  ) |> 
+  separate_longer_delim(
+    Target, delim = "; "
+  ) |> 
+  group_by(Source, Target) |> 
+  summarise(
+    Weight = n(),
+    .groups = "drop"
+  ) |> 
+  left_join(
+    tugasakhir_divider, by = "Source"
+  ) |> 
+  mutate(
+    Weight = Weight / divider
+  ) |> 
+  select(-divider)
+
+
+nodelist_prodi_keywords <- edgelist_prodi_keywords |> 
+  select(-Weight) |> 
+  pivot_longer(
+    cols = c(Source, Target),
+    names_to = "nodeType",
+    values_to = "Id"
+  ) |> 
+  mutate(
+    nodeType = ifelse(
+      nodeType == "Source", "Prodi", "Kata kunci"
+    )
+  ) |> 
+  unique() |> 
+  select(Id, nodeType) |> 
+  arrange(desc(nodeType), Id)
+```
+
+@fig-department-keywords-net displays the connections between departments and keywords, illustrating how different academic disciplines relate to various research topics. The size of the nodes represents the weighted degree, indicating the strength of each node's connections. The color of the nodes differentiates the types of nodes: departments are represented in green, while keywords are represented in pink, visually distinguishing the two types of entities in the network.
+
+![Bipartite network graph illustrating the connections between departments and keywords, highlighting the relationships between academic disciplines and research topics.](graph_prodi_keywords.png){#fig-department-keywords-net}
+
+The table below presents the degree, weighted degree, and betweenness centrality of each node in the bipartite network. The degree indicates the number of direct connections each node has, while the weighted degree adjusts this count to account for the strength of the connections. Betweenness centrality reflects the extent to which a node serves as a bridge between other nodes, highlighting its role in facilitating connections across the network.
+
+```{r}
+prodi_keywords_metrics <- read_csv(
+  "prodi_keywords_metrics.csv",
+  show_col_types = FALSE
+)
+prodi_keywords_metrics_simple <- prodi_keywords_metrics |> 
+  select(Id, nodetype, Degree, `Weighted Degree`, betweenesscentrality) |> 
+  mutate(
+    `Weighted Degree` = round(`Weighted Degree`, 2),
+    betweenesscentrality = round(betweenesscentrality, 2)
+  ) |> 
+  arrange(desc(betweenesscentrality))
+prodi_keywords_metrics_simple |> 
+  datatable(
+    rownames = FALSE,
+    colnames = c("Node", "Node type", "Degree", "Weighted degree", "Centrality")
+  )
+```
+
+The table below shows each keyword along with the number of departments it is associated with and the list of departments. This provides insight into the extent to which certain keywords are shared across different departments.
+
+```{r}
+keywords_prodi_count <- df_tugasakhir |> 
+  select(ID, C1) |> 
+  rename(
+    keywords = ID,
+    department = C1
+  ) |> 
+  separate_longer_delim(
+    keywords, delim = "; "
+  ) |> 
+  unique() |> 
+  group_by(keywords) |> 
+  summarise(
+    count = length(unique(department)),
+    .groups = "drop"
+  )
+keywords_prodi_list <- df_tugasakhir |> 
+  select(ID, C1) |> 
+  rename(
+    keywords = ID,
+    department = C1
+  ) |> 
+  separate_longer_delim(
+    keywords, delim = "; "
+  ) |> 
+  unique() |> 
+  group_by(keywords) |> 
+  summarise(
+    department = paste(sort(unique(department)), collapse = ", "),
+    .groups = "drop"
+  )
+keywords_prodi_summary <- left_join(
+  keywords_prodi_count, keywords_prodi_list,
+  by = "keywords"
+) |> 
+  arrange(desc(count))
+keywords_prodi_summary |> 
+  filter(
+    count >= 6
+  ) |> 
+  datatable(
+    rownames = FALSE,
+    colnames = c("Keywords", "Count", "Department")
+  )
+  
+```
+
+@fig-dep-connection illustrates the connections between departments based on the shared keywords in their theses. Each link between two departments represents a shared keyword, and the thickness of the link indicates the strength of the connection, with thicker links showing a higher number of shared keywords. This visualization highlights how departments are interconnected through common research topics, helping to identify areas of overlap and potential collaboration within the faculty.
+
+```{r}
+#| label: fig-dep-connection
+#| fig-cap: "Chord diagram illustrating the connections between departments"
+#| fig-asp: 1
+
+prodi_connection <- read_csv(
+  "prodi_connection.csv",
+  show_col_types = FALSE
+)
+prodi_connection_simple <- prodi_connection |> 
+  select(Source, Target, Weight)
+chordDiagramFromDataFrame(
+  prodi_connection_simple,
+  scale = TRUE
+)
+```
