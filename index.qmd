@@ -306,3 +306,40 @@ chordDiagramFromDataFrame(
   scale = TRUE
 )
 ```
+
+@fig-connection-matrix offers a detailed representation of the connections between departments, complementing the chord diagram in @fig-dep-connection. While the chord diagram emphasizes the overall network structure and connection strength, the heatmap highlights the exact weights of shared keywords between department pairs. Each tile corresponds to a department pair, with darker shades indicating stronger connections. Numerical values within the tiles provide precise weights, facilitating a closer examination of thematic linkages across departments.
+
+```{r}
+#| label: fig-connection-matrix
+#| fig-cap: "Heatmap showing the connection strength between department pairs"
+#| fig-asp: 0.75
+
+prodi_connection_simple_rev <- prodi_connection_simple |> 
+  rename(
+    Source = Target,
+    Target = Source
+  ) |> 
+  select(Source, Target, Weight)
+prodi_connection_simple |> 
+  bind_rows(prodi_connection_simple_rev) |> 
+  mutate(
+    Weight = round(Weight, 3)
+  ) |> 
+  ggplot(
+    aes(x = Source, y = Target, fill = Weight)
+  ) + 
+  geom_tile(show.legend = FALSE) + 
+  geom_text(
+    aes(label = Weight),
+    size = 3
+  ) +
+  scale_fill_gradient(
+    low = "white",
+    high = "#2ca25f"
+  ) + 
+  theme_minimal() + 
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_text(angle = 90, hjust = 1)
+  )
+```
