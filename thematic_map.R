@@ -213,8 +213,25 @@ cluster_metrics_all <- bind_rows(
     density_std = (density - mean(density, na.rm = TRUE)) / sd(density, na.rm = TRUE)
   ) |> 
   ungroup()
+cluster_metrics_all_simple <- cluster_metrics_all |> 
+  filter(
+    size > 5
+  ) |> 
+  select(
+    -centrality_std,
+    -density_std
+  ) |> 
+  group_by(department) |> 
+  mutate(
+    centrality_std = (centrality - mean(centrality, na.rm = TRUE)) / sd(centrality, na.rm = TRUE),
+    density_std = (density - mean(density, na.rm = TRUE)) / sd(density, na.rm = TRUE)
+  ) |> 
+  ungroup()
 write.csv(
   cluster_metrics_all, file = "cluster_metrics_all.csv"
+)
+write.csv(
+  cluster_metrics_all_simple, file = "cluster_metrics_all_simple.csv"
 )
 
 # Plot thematic map ----

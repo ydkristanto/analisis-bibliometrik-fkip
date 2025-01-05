@@ -173,12 +173,12 @@ keywords_metrics_simple |>
 
 ::: {#fig-thematic-map-dep}
 ```{ojs}
-data = FileAttachment("cluster_metrics_all.csv").csv({ typed: true }) // Load your dataset into Observable JS
+data = FileAttachment("cluster_metrics_all_simple.csv").csv({ typed: true }) // Load your dataset into Observable JS
 
 // Create dropdown for department selection
 viewof department_selector = Inputs.select(
   [...new Set(data.map(d => d.department))], // Get unique departments
-  {label: "Department:", value: "PGSD"}
+  {label: "Department:", value: "PBSI"}
 )
 
 // Filter data based on department selection
@@ -191,8 +191,8 @@ Plot.plot({
          {x: "centrality_std",
           y: "density_std",
           fill: "cluster",
-          opacity: 1,
-          r: (d) => d.size * 4
+          opacity: 0.8,
+          r: "size"
           }),
           // Add horizontal line at y = 0
       Plot.ruleY([0], {stroke: "black", strokeWidth: 1, strokeDasharray: "4,4"}),
@@ -201,7 +201,7 @@ Plot.plot({
       Plot.tip(filtered_data, Plot.pointer({
       x: "centrality_std",
       y: "density_std",
-      title: (d) => [d.cluster_title, d.sample_members].join("\n\n")
+      title: (d) => `${d.cluster_title}\n\n${d.sample_members}`
     }))
       ],
   symbol: {legend: false},
@@ -209,15 +209,31 @@ Plot.plot({
     type: "categorical",
     scheme: "Set1"
   },
-  x: {label: "Centrality", fontSize: 18},
-  y: {label: "Density", fontSize: 18},
-  style: {fontsize: 18},
+  r: { // Control the size range of the points
+    type: "linear",
+    domain: [Math.min(...filtered_data.map(d => d.size)), Math.max(...filtered_data.map(d => d.size))],
+    range: [5, 40] // Adjust point sizes here
+  },
+  x: {
+    label: "Relevance Degree (Centrality)",
+    labelAnchor: "center",
+    labelOffset: 25,
+    fontSize: "12px"
+},
+  y: {
+    label: "Development Degree (Density)",
+    labelAnchor: "center",
+    labelRotate: 90,
+    labelOffset: 40,
+    fontSize: "12px"
+},
+  style: {fontSize: "10px", width: "100%"},
   grid: true
 })
 
 ```
 
-Interactive scatterplot of centrality vs density, with filtering by department.
+Visualization of [thematic mapping](https://doi.org/10.1145/2556288.2556969 "Click to learn how to interpret the thematic map"){target="_blank"}, with filtering by department.
 :::
 
 ## Interdepartmental Linkages Based on Keywords
