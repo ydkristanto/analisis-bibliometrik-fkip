@@ -169,6 +169,58 @@ keywords_metrics_simple |>
   )
 ```
 
+@fig-thematic-map-dep visualizes the relationship between centrality (the importance or influence of a theme) and density (the development and cohesion of a theme) across different clusters. The plot divides the space into four key categories. Motor themes (high centrality and high density) are well-developed, important themes that are central to the research field. Basic themes (high centrality but low density) represent widely connected themes that are fundamental but may lack depth or development. Niche themes (low centrality but high density) are highly specialized, well-developed themes that are not central to the main field. Emerging or declining themes (low centrality and low density) indicate topics that are either emerging and developing or losing relevance.
+
+:::{#fig-thematic-map-dep}
+
+```{ojs}
+data = FileAttachment("cluster_metrics_all.csv").csv({ typed: true }) // Load your dataset into Observable JS
+
+// Create dropdown for department selection
+viewof department_selector = Inputs.select(
+  [...new Set(data.map(d => d.department))], // Get unique departments
+  {label: "Department:", value: "PGSD"}
+)
+
+// Filter data based on department selection
+filtered_data = data.filter(d => d.department === department_selector)
+
+// Create scatterplot
+Plot.plot({
+  marks: [
+      Plot.dot(filtered_data,
+         {x: "centrality_std",
+          y: "density_std",
+          fill: "cluster",
+          opacity: 1,
+          r: (d) => d.size * 4
+          }),
+          // Add horizontal line at y = 0
+      Plot.ruleY([0], {stroke: "black", strokeWidth: 1, strokeDasharray: "4,4"}),
+      // Add vertical line at x = 0
+      Plot.ruleX([0], {stroke: "black", strokeWidth: 1, strokeDasharray: "4,4"}),
+      Plot.tip(filtered_data, Plot.pointer({
+      x: "centrality_std",
+      y: "density_std",
+      title: (d) => [d.cluster_title, d.sample_members].join("\n\n")
+    }))
+      ],
+  symbol: {legend: false},
+  color: {
+    type: "categorical",
+    scheme: "Set1"
+  },
+  x: {label: "Centrality", fontSize: 18},
+  y: {label: "Density", fontSize: 18},
+  style: {fontsize: 18},
+  grid: true
+})
+
+```
+
+Interactive scatterplot of centrality vs density, with filtering by department.
+:::
+
 ## Interdepartmental Linkages Based on Keywords
 
 ```{r}
@@ -356,3 +408,4 @@ prodi_connection_simple |>
     axis.text.x = element_text(angle = 90, hjust = 1)
   )
 ```
+
