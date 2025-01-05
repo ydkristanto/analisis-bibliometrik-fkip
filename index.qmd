@@ -191,7 +191,9 @@ Plot.plot({
          {x: "centrality_std",
           y: "density_std",
           fill: "cluster",
-          opacity: 0.8,
+          opacity: 0.6,
+          stroke: "cluster",
+          strokeWidth: 3,
           r: "size"
           }),
           // Add horizontal line at y = 0
@@ -207,7 +209,7 @@ Plot.plot({
   symbol: {legend: false},
   color: {
     type: "categorical",
-    scheme: "Set1"
+    scheme: "Dark2"
   },
   r: { // Control the size range of the points
     type: "linear",
@@ -215,20 +217,22 @@ Plot.plot({
     range: [5, 40] // Adjust point sizes here
   },
   x: {
-    label: "Relevance Degree (Centrality)",
+    label: "Relevance Degree\n(Centrality)",
     labelAnchor: "center",
-    labelOffset: 25,
+    labelOffset: 50,
     fontSize: "12px"
 },
   y: {
-    label: "Development Degree (Density)",
+    label: "Development Degree\n(Density)",
     labelAnchor: "center",
     labelRotate: 90,
-    labelOffset: 40,
+    labelOffset: 50,
     fontSize: "12px"
 },
   style: {fontSize: "10px", width: "100%"},
-  grid: true
+  grid: true,
+  marginLeft: 60,
+  marginBottom: 60
 })
 
 ```
