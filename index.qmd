@@ -11,12 +11,24 @@ author:
     affiliation: Faculty of Teacher Training and Education, Sanata Dharma University
     affiliation-url: https://web.usd.ac.id/fakultas/pendidikan/
 date: 2025-01-02
+date-modified: 2025-01-06
 lightbox: true
 number-sections: true
 format:
   html:
     toc: true
+    smooth-scroll: true
 image: "https://ydkristanto.github.io/analisis-bibliometrik-fkip/index_files/figure-html/fig-dep-connection-1.png"
+image-alt: |
+  Chord diagram illustrating the connections between departments
+keywords: 
+  - bibliometric analysis
+  - co-occurrence network
+  - exploratory data analysis
+  - network analysis
+  - thematic mapping
+  - thesis
+license: "CC BY"
 editor: visual
 execute:
   echo: false
@@ -24,6 +36,8 @@ execute:
   warning: false
 editor_options: 
   chunk_output_type: console
+bibliography: references.bib
+csl: apa.csl
 ---
 
 ```{r}
@@ -35,7 +49,7 @@ library(circlize)
 library(sigmajs)
 ```
 
-The purpose of this report is to identify common topics in undergraduate and master’s theses across departments within the Faculty of Teacher Training and Education at Sanata Dharma University. To achieve this, we conducted a bibliometric analysis of theses from the years 2022 and 2023. The analysis utilized data consisting of thesis titles, which were subsequently coded to generate a list of keywords for each thesis.
+The purpose of this report is to identify common topics in undergraduate and master’s theses across departments within the Faculty of Teacher Training and Education at Sanata Dharma University. To achieve this, we conducted a bibliometric analysis [@öztürk2024] of theses from the years 2022 and 2023. The analysis utilized data consisting of thesis titles, which were subsequently coded to generate a list of keywords for each thesis. We analyzed the frequency of keywords and their co-occurrence [@kristanto2020] to uncover patterns and relationships among the keywords in the students’ theses.
 
 Our analyses yielded three key insights. First, we examined the frequency of keywords across departments, providing an overview of common topics within the faculty and within individual departments. Second, we analyzed the connections between keywords through a network perspective, offering insights into how topics are interrelated and identifying clusters of related topics. Third, we explored the connections between keywords and departments to assess the extent of interdepartmental linkages.
 
@@ -88,8 +102,7 @@ keywords_count <- dep_keywords |>
 
 @tbl-keywords_count presents the keywords and their frequencies. It shows that the top ten most common keywords in the students' theses are "modul", "media", "hasil belajar", "LKPD", "persepsi", "pembelajaran berbasis projek", "problem based learning", "film", "modul ajar", and "motivasi belajar".
 
-:::{#tbl-keywords_count}
-
+::: {#tbl-keywords_count}
 ```{r}
 datatable(
   keywords_count,
@@ -122,8 +135,7 @@ keywords_count |>
 
 @tbl-dep_keywords_count shows the top ten most common keywords in each department.
 
-:::{#tbl-dep_keywords_count}
-
+::: {#tbl-dep_keywords_count}
 ```{r}
 dep_keywords_count <- dep_keywords |> 
   group_by(department, keywords) |> 
@@ -162,7 +174,6 @@ Network graph illustrating the connections between keywords and the clusters of 
 @tbl-keywords-metrics presents the keywords along with their degree and weighted degree. The degree represents the number of direct connections each keyword has within the network. The weighted degree reflects the number of connections each keyword has, adjusted for the strength of those connections.
 
 ::: {#tbl-keywords-metrics}
-
 ```{r}
 keywords_metrics <- read_csv(
   "keywords_metrics.csv",
@@ -249,7 +260,7 @@ Plot.plot({
 
 ```
 
-Visualization of [thematic mapping](https://doi.org/10.1145/2556288.2556969 "Click to learn how to interpret the thematic map"){target="_blank"}, with filtering by department.
+Visualization of thematic mapping [@cobo2011], with filtering by department.
 :::
 
 ## Interdepartmental Linkages Based on Keywords
@@ -316,7 +327,7 @@ Bipartite network graph illustrating the connections between departments and key
 
 @tbl-prodi_keywords_metrics presents the degree, weighted degree, and betweenness centrality of each node in the bipartite network. The degree indicates the number of direct connections each node has, while the weighted degree adjusts this count to account for the strength of the connections. Betweenness centrality reflects the extent to which a node serves as a bridge between other nodes, highlighting its role in facilitating connections across the network.
 
-:::{#tbl-prodi_keywords_metrics}
+::: {#tbl-prodi_keywords_metrics}
 ```{r}
 prodi_keywords_metrics <- read_csv(
   "prodi_keywords_metrics.csv",
@@ -341,8 +352,7 @@ Degree, weighted degree, and betweenness centrality of nodes in the bipartite ne
 
 @tbl-keywords_prodi_count shows each keyword along with the number of departments it is associated with and the list of departments. This provides insight into the extent to which certain keywords are shared across different departments.
 
-:::{#tbl-keywords_prodi_count}
-
+::: {#tbl-keywords_prodi_count}
 ```{r}
 keywords_prodi_count <- df_tugasakhir |> 
   select(ID, C1) |> 
@@ -448,3 +458,8 @@ prodi_connection_simple |>
     axis.text.x = element_text(angle = 90, hjust = 1)
   )
 ```
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
