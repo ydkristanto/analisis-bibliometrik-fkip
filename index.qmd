@@ -86,7 +86,9 @@ keywords_count <- dep_keywords |>
   arrange(desc(count))
 ```
 
-The table below presents the keywords and their frequencies. It shows that the top ten most common keywords in the students' theses are "modul", "media", "hasil belajar", "LKPD", "persepsi", "pembelajaran berbasis projek", "problem based learning", "film", "modul ajar", and "motivasi belajar".
+@tbl-keywords_count presents the keywords and their frequencies. It shows that the top ten most common keywords in the students' theses are "modul", "media", "hasil belajar", "LKPD", "persepsi", "pembelajaran berbasis projek", "problem based learning", "film", "modul ajar", and "motivasi belajar".
+
+:::{#tbl-keywords_count}
 
 ```{r}
 datatable(
@@ -95,6 +97,9 @@ datatable(
   colnames = c("Keywords", "Count")
 )
 ```
+
+Keywords and their frequencies in students' theses.
+:::
 
 @fig-tree-keywords displays the top ten most common keywords in the students' theses.
 
@@ -115,7 +120,9 @@ keywords_count |>
   geom_treemap_text(place = "centre")
 ```
 
-The table below shows the top ten most common keywords in each department.
+@tbl-dep_keywords_count shows the top ten most common keywords in each department.
+
+:::{#tbl-dep_keywords_count}
 
 ```{r}
 dep_keywords_count <- dep_keywords |> 
@@ -137,9 +144,12 @@ dep_keywords_count |>
   )
 ```
 
+The top ten most common keywords identified within each department.
+:::
+
 ## Keyword Network and Topic Clusters
 
-@fig-keywords-network illustrates the connections between keywords and their respective clusters. The size of the nodes represents the betweenness centrality of each keyword, indicating its importance in connecting different parts of the network. The color of the nodes corresponds to the cluster to which each keyword belongs, visually grouping related topics.
+@fig-keywords-network illustrates the connections between keywords and their respective clusters. The size of the nodes represents the weighted degree of each keyword, indicating the total strength of its connections within the network. The color of the nodes corresponds to the cluster to which each keyword belongs, visually grouping related topics.
 
 ::: {#fig-keywords-network .column-page}
 ```{=html}
@@ -149,7 +159,9 @@ dep_keywords_count |>
 Network graph illustrating the connections between keywords and the clusters of related topics within the students’ theses.
 :::
 
-The table below presents the keywords along with their weighted degree and betweenness centrality. The weighted degree reflects the number of connections each keyword has, adjusted for the strength of those connections.
+@tbl-keywords-metrics presents the keywords along with their degree and weighted degree. The degree represents the number of direct connections each keyword has within the network. The weighted degree reflects the number of connections each keyword has, adjusted for the strength of those connections.
+
+::: {#tbl-keywords-metrics}
 
 ```{r}
 keywords_metrics <- read_csv(
@@ -157,17 +169,17 @@ keywords_metrics <- read_csv(
   show_col_types = FALSE
 )
 keywords_metrics_simple <- keywords_metrics |> 
-  select(Id, `Weighted Degree`, betweenesscentrality) |> 
-  mutate(
-    betweenesscentrality = round(betweenesscentrality, 2)
-  ) |> 
-  arrange(desc(betweenesscentrality))
+  select(Id, Degree, `Weighted Degree`) |> 
+  arrange(desc(Degree))
 keywords_metrics_simple |> 
   datatable(
     rownames = FALSE,
-    colnames = c("Keywords", "Weighted Degree", "Centrality")
+    colnames = c("Keywords", "Degree", "Weighted Degree")
   )
 ```
+
+Keywords with their degree and weighted degree, showing the number of direct connections and their strength within the network.
+:::
 
 @fig-thematic-map-dep visualizes the relationship between centrality and density across different clusters for each department. Points are colored based on their cluster, sized according to the cluster size, and labeled with the corresponding cluster title and members.
 
@@ -302,8 +314,9 @@ nodelist_prodi_keywords <- edgelist_prodi_keywords |>
 Bipartite network graph illustrating the connections between departments and keywords, highlighting the relationships between academic disciplines and research topics.
 :::
 
-The table below presents the degree, weighted degree, and betweenness centrality of each node in the bipartite network. The degree indicates the number of direct connections each node has, while the weighted degree adjusts this count to account for the strength of the connections. Betweenness centrality reflects the extent to which a node serves as a bridge between other nodes, highlighting its role in facilitating connections across the network.
+@tbl-prodi_keywords_metrics presents the degree, weighted degree, and betweenness centrality of each node in the bipartite network. The degree indicates the number of direct connections each node has, while the weighted degree adjusts this count to account for the strength of the connections. Betweenness centrality reflects the extent to which a node serves as a bridge between other nodes, highlighting its role in facilitating connections across the network.
 
+:::{#tbl-prodi_keywords_metrics}
 ```{r}
 prodi_keywords_metrics <- read_csv(
   "prodi_keywords_metrics.csv",
@@ -323,7 +336,12 @@ prodi_keywords_metrics_simple |>
   )
 ```
 
-The table below shows each keyword along with the number of departments it is associated with and the list of departments. This provides insight into the extent to which certain keywords are shared across different departments.
+Degree, weighted degree, and betweenness centrality of nodes in the bipartite network, showcasing their connectivity, connection strength, and bridging role within the network.
+:::
+
+@tbl-keywords_prodi_count shows each keyword along with the number of departments it is associated with and the list of departments. This provides insight into the extent to which certain keywords are shared across different departments.
+
+:::{#tbl-keywords_prodi_count}
 
 ```{r}
 keywords_prodi_count <- df_tugasakhir |> 
@@ -371,6 +389,9 @@ keywords_prodi_summary |>
   )
   
 ```
+
+Keywords, their associated number of departments, and the corresponding list of departments, illustrating the distribution and interdisciplinary relevance of each keyword.
+:::
 
 @fig-dep-connection illustrates the connections between departments based on the shared keywords in their theses. Each link between two departments represents a shared keyword, and the thickness of the link indicates the strength of the connection, with thicker links showing a higher number of shared keywords. This visualization highlights how departments are interconnected through common research topics, helping to identify areas of overlap and potential collaboration within the faculty.
 
